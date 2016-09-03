@@ -8,31 +8,41 @@ function love.load()
 	[[
 	extern number screenWidth;
 	extern number screenHeight;
+	extern number random1;
 	vec4 effect(vec4 color,Image texture,vec2 texture_coords,vec2 screen_coords)
 	{
 		vec2 neigh = texture_coords;
 		neigh.x = neigh.x + 1;
 		vec4 pixel = Texel(texture, texture_coords);
 		vec4 pixel_n = Texel(texture, neigh);
-		number xx = floor(texture_coords.x * screenWidth * 4);
-		number yy = floor(texture_coords.y * screenHeight * 4);
+		number xx = floor(texture_coords.x * screenWidth );
+		number yy = floor(texture_coords.y * screenHeight );
 		number ym = mod(yy,3);
 
 
+		if (mod(xx,2) == 0)
+		{
+			pixel.r = pixel.r + 0.5 + random1;
+		}
 		if (mod(yy,2) == 0)
 		{
-			pixel.r = pixel.r - 0.5;
-			pixel.g = pixel.g - 0.5;
-			pixel.b = pixel.b - 0.5;
+			pixel.b = pixel.b +0.5;
 		}
+		if (floor(mod(xx,4)) == 0)
+		{
+			pixel.y = random1;
+		}
+		
 		return pixel;
     }
  	]]
 --]]
 
-	Game = game.make(16,16,320,240)
+	--Game = game.make(16,16,320,240)
+	--Game = game.make(16,16,640,480)
+	Game = game.make(16,16,160,120)
 
-	--Shader:send("screenWidth", Game.width)
+	Shader:send("screenWidth", Game.width)
 	Shader:send("screenHeight", Game.height)
 	
 	Screen = screen.update(Game.width,Game.height)
@@ -117,10 +127,10 @@ function love.update(dt)
 				elseif Camera.rotationvel > 0 then
 					Camera.rotationvel = Camera.rotationvel - 0.002
 				end
-				if Camera.rotationvel > -0.0005 or Camera.rotationvel < 0.0005 then
+				if (Camera.rotationvel > -0.002 and Camera.rotationvel<0) or (Camera.rotationvel < 0.002 and Camera.rotationvel>0) then
 					--Camera.rotationvel = 0
+					Camera.rotationvel = 0 + love.math.random(0.002)-1
 				end
-				--Camera.rotationvel = 0
 			end
 			Camera.angle = Camera.angle + Camera.rotationvel
 		else
@@ -154,7 +164,8 @@ function love.draw(dt)
 				actor.draw(v)
 			end
 			--love.graphics.printf("VIDEOGAME", -100,-50,200,"center")
-			love.graphics.printf( {Palette[math.floor(love.math.random(10))],"VIDEO",Palette[math.floor(love.math.random(10))],"GAMEZ"}, -100, -50, 200, "center") 
+			--love.graphics.printf( {Palette[math.floor(love.math.random(10))],"VIDEO",Palette[math.floor(love.math.random(10))],"GAMEZ"}, -100, -50, 200, "center") 
+			love.graphics.printf( {Palette[4],"VIDEO",Palette[3],"GAMEZ"}, -100, -50, 200, "center") 
 
 			--love.graphics.printf("GAME", Game.width/2,Game.height/2, 20, "left")
 			--love.graphics.print("game",Game.width/2,Game.height/2)
@@ -177,12 +188,13 @@ function love.draw(dt)
 	--love.graphics.translate(width/2, height/2)
 	love.graphics.origin()
 	if not DebugMode and State ~= -1 then
-		--love.graphics.setShader(Shader)
+		love.graphics.setShader(Shader)
 	end
 	local width=Screen.width
 			local height=Screen.height
 	--love.graphics.draw(Canvas.game,width/2,height/2,Camera.angle,Screen.scale,Screen.scale,Game.width/2,Game.height/2) --just like draws everything to the screen or whatever
 	love.graphics.draw(Canvas.game,width/2,height/2,0,Screen.scale,Screen.scale,Game.width/2,Game.height/2) --just like draws everything to the screen or whatever
+	--love.graphics.draw(Canvas.game,width/2,height/2,0,1,1,Game.width/2,Game.height/2) --just like draws everything to the screen or whatever
 	
 	
 	love.graphics.setShader()
