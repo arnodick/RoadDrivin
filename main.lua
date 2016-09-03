@@ -153,7 +153,8 @@ function love.draw(dt)
 			for i,v in ipairs(Actors) do
 				actor.draw(v)
 			end
-			love.graphics.printf("VIDEOGAME", -100,-50,200,"center")
+			--love.graphics.printf("VIDEOGAME", -100,-50,200,"center")
+			love.graphics.printf( {Palette[math.floor(love.math.random(10))],"VIDEO",Palette[math.floor(love.math.random(10))],"GAMEZ"}, -100, -50, 200, "center") 
 
 			--love.graphics.printf("GAME", Game.width/2,Game.height/2, 20, "left")
 			--love.graphics.print("game",Game.width/2,Game.height/2)
