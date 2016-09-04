@@ -161,12 +161,16 @@ function love.draw(dt)
 			love.graphics.print("options",160,120)
 		elseif State == Enums.states.game then
 			--love.graphics.translate(Game.width/2,Game.height/2)
-			love.graphics.rectangle("line",0,0,Game.width,Game.height)
+			--love.graphics.rectangle("line",0,0,Game.width,Game.height)
 			love.graphics.rotate(Camera.angle)
 			for i,v in ipairs(Actors) do
 				actor.draw(v)
 			end
-			
+			for a = -10,10 do
+				for b = -10, 10 do
+					love.graphics.draw(Spritesheet,Quads[1],a*100,b*100,0,1,1,8,8)
+				end
+			end
 			--love.graphics.printf( {Palette[4],"VIDEO",Palette[3],"GAMEZ"}, -100, -50, 200, "center") 	
 			--love.graphics.translate(-Game.width/2, -Game.height/2)
 		end

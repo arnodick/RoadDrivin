@@ -10,7 +10,7 @@ local function make(t,x,y,d,vel)
 	actor.delta=Timer
 	actor.accel=0.04
 	actor.decel=0.02
-	actor.maxvel=5
+	actor.maxvel=3
 	_G[Enums.names[actor.t]]["make"](actor)
 	table.insert(Actors,actor)
 	return actor
