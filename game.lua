@@ -39,7 +39,6 @@ local function make(tw,th,gw,gh)
 	g.width=gw
 	g.height=gh
 	return g
-	
 end
 
 local function changestate(s)
@@ -57,7 +56,10 @@ local function changestate(s)
 	if State == 0 then
 	
 	elseif State == 3 then
-		--actor.make(Enums.actors.tree,0,120,0,0)
+		Player=actor.make(Enums.actors.car,0,0,0,0)
+		actor.make(Enums.actors.tree,10,0,0,0)
+		actor.make(Enums.actors.tree,0,10,0,0)
+		actor.make(Enums.actors.tree,20,0,0,0)
 	end
 end
 

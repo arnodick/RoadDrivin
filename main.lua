@@ -38,9 +38,9 @@ function love.load()
  	]]
 --]]
 
-	--Game = game.make(16,16,320,240)
+	Game = game.make(16,16,320,240)
 	--Game = game.make(16,16,640,480)
-	Game = game.make(16,16,160,120)
+	--Game = game.make(16,16,160,120)
 
 	Shader:send("screenWidth", Game.width)
 	Shader:send("screenHeight", Game.height)
@@ -51,7 +51,7 @@ function love.load()
 
 	--graphics settings and asset inits
 	love.graphics.setDefaultFilter("nearest","nearest",1) --clean SPRITE scaling
-	love.graphics.setLineWidth(50)
+	love.graphics.setLineWidth(2)
 	love.graphics.setLineStyle("rough") --clean SHAPE scaling
 	love.graphics.setBlendMode("replace")
 	love.mouse.setVisible(false)
@@ -111,6 +111,7 @@ function love.update(dt)
 			for i,v in ipairs(Actors) do
 				actor.control(v)
 			end
+			--[[
 			if love.keyboard.isDown("up") then
 				Screen.scale = Screen.scale + 0.004
 			elseif love.keyboard.isDown("down") then
@@ -133,6 +134,7 @@ function love.update(dt)
 				end
 			end
 			Camera.angle = Camera.angle + Camera.rotationvel
+			--]]
 		else
 			Pause = Pause - 1
 		end
@@ -146,10 +148,10 @@ end
 function love.draw(dt)
 	
 	love.graphics.setCanvas(Canvas.game) --sets drawing to the 320x240 canvas
-									local width=Screen.width
-			local height=Screen.height
+		local width=Screen.width
+		local height=Screen.height
 		love.graphics.clear() --cleans that messy ol canvas all up, makes it all fresh and new and good you know
-		love.graphics.setBlendMode("replace")
+		love.graphics.setBlendMode("screen")
 		love.graphics.translate(-Camera.x,-Camera.y)
 		if State == Enums.states.intro then
 			love.graphics.print("intro",160,120)
@@ -158,40 +160,25 @@ function love.draw(dt)
 		elseif State == Enums.states.options then
 			love.graphics.print("options",160,120)
 		elseif State == Enums.states.game then
-			love.graphics.translate(Game.width/2,Game.height/2)
+			--love.graphics.translate(Game.width/2,Game.height/2)
+			love.graphics.rectangle("line",0,0,Game.width,Game.height)
 			love.graphics.rotate(Camera.angle)
 			for i,v in ipairs(Actors) do
 				actor.draw(v)
 			end
-			--love.graphics.printf("VIDEOGAME", -100,-50,200,"center")
-			--love.graphics.printf( {Palette[math.floor(love.math.random(10))],"VIDEO",Palette[math.floor(love.math.random(10))],"GAMEZ"}, -100, -50, 200, "center") 
-			love.graphics.printf( {Palette[4],"VIDEO",Palette[3],"GAMEZ"}, -100, -50, 200, "center") 
-
-			--love.graphics.printf("GAME", Game.width/2,Game.height/2, 20, "left")
-			--love.graphics.print("game",Game.width/2,Game.height/2)
-	
-			love.graphics.translate(-Game.width/2, -Game.height/2)
+			
+			--love.graphics.printf( {Palette[4],"VIDEO",Palette[3],"GAMEZ"}, -100, -50, 200, "center") 	
+			--love.graphics.translate(-Game.width/2, -Game.height/2)
 		end
-		--love.graphics.rectangle("line",0,0,Game.width,Game.height)
+		
 		love.graphics.setColor(255, 255, 255, 255) --sets draw colour back to normal
 	love.graphics.setCanvas() --sets drawing back to screen
-
-
-
-		--[[
-						local width=Screen.width
-			local height=Screen.height
-			love.graphics.translate(width/2, height/2)
-			love.graphics.rotate(Camera.angle)
-			love.graphics.translate(-width/2, -height/2)
-		]]
-	--love.graphics.translate(width/2, height/2)
 	love.graphics.origin()
 	if not DebugMode and State ~= -1 then
-		love.graphics.setShader(Shader)
+		--love.graphics.setShader(Shader)
 	end
 	local width=Screen.width
-			local height=Screen.height
+	local height=Screen.height
 	--love.graphics.draw(Canvas.game,width/2,height/2,Camera.angle,Screen.scale,Screen.scale,Game.width/2,Game.height/2) --just like draws everything to the screen or whatever
 	love.graphics.draw(Canvas.game,width/2,height/2,0,Screen.scale,Screen.scale,Game.width/2,Game.height/2) --just like draws everything to the screen or whatever
 	--love.graphics.draw(Canvas.game,width/2,height/2,0,1,1,Game.width/2,Game.height/2) --just like draws everything to the screen or whatever
@@ -201,12 +188,10 @@ function love.draw(dt)
 	if DebugMode then
 		love.graphics.setCanvas(Canvas.debug) --sets drawing to the 1280 x 960 debug canvas
 		love.graphics.clear() --cleans that messy ol canvas all up, makes it all fresh and new and good you know
-		--love.graphics.setBackgroundColor(0,0,0,0)
 		debugger.draw(DebugList)
 		love.graphics.setCanvas() --sets drawing back to screen
 		love.graphics.setBlendMode("alpha")
 		love.graphics.origin()
-		--love.graphics.draw(Canvas.debug,0+Camera.x*Screen.scale+Screen.xoff,0+Camera.y*Screen.scale,0,1,1,0,0) --just like draws everything to the screen or whatever
 		love.graphics.draw(Canvas.debug,0,0,0,1,1,0,0) --just like draws everything to the screen or whatever
 	end
 end

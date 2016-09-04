@@ -6,9 +6,9 @@ local function make(t,x,y,d,vel)
 	actor.d=d
 	actor.vec={math.cos(d),math.sin(d)}
 	actor.vel=vel
-	actor.grav=true
+	actor.grav=false
 	actor.delta=Timer
-	actor.accel=0.08
+	actor.accel=0.04
 	actor.decel=0.02
 	actor.maxvel=5
 	_G[Enums.names[actor.t]]["make"](actor)
@@ -18,6 +18,10 @@ end
 
 local function control(a)
 	_G[Enums.names[a.t]]["control"](a)
+	a.vec[1]=math.cos(a.d)
+	a.vec[2]=math.sin(a.d)
+	a.x = a.x + a.vec[1] * a.vel
+	a.y = a.y + a.vec[2] * a.vel
 end
 
 local function draw(a)
