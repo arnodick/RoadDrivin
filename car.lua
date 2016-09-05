@@ -13,16 +13,16 @@ local function control(a)
 		end
 	end
 	if love.keyboard.isDown("right") then
-		a.d = a.d + 0.1
+		a.d = a.d + 0.05
 	elseif love.keyboard.isDown("left") then
-		a.d = a.d - 0.1
+		a.d = a.d - 0.05
 	end
 	Camera.x = a.x - Game.width/2
 	Camera.y = a.y - Game.height/2
 end
 
 local function draw(a)
-	love.graphics.draw(Spritesheet,Quads[0],a.x,a.y,a.d+math.pi/2,1,1,8,8)
+	love.graphics.draw(Spritesheet,Quads[0],a.x,a.y,a.d+math.pi/2,1,1,8,12)
 end
 
 return

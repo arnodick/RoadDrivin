@@ -7,6 +7,10 @@ local function update()
 	table.insert(debuglist,"Actors:"..#Actors)
 	table.insert(debuglist,"camx:"..Camera.x)--TODO: figure out camera
 	table.insert(debuglist,"camy:"..Camera.y)
+	table.insert(debuglist,"player x:"..Player.y)
+	table.insert(debuglist,"player y:"..Player.y)
+	table.insert(debuglist,"player vecx:"..Player.vec[1])
+	table.insert(debuglist,"player vecy:"..Player.vec[2])
 	return debuglist
 end
 

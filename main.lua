@@ -48,6 +48,15 @@ function love.load()
 	Screen = screen.update(Game.width,Game.height)
 
 	game.changestate(State)
+	
+	Points = {}
+	for a=1,500 do
+		table.insert(Points,love.math.random(-250,250))
+		table.insert(Points,a*-25)
+		actor.make(Enums.actors.tree,Points[a*2-1],Points[a*2],0,0)
+	end
+	--Road = Points
+	Road = love.math.newBezierCurve(Points)
 
 	--graphics settings and asset inits
 	love.graphics.setDefaultFilter("nearest","nearest",1) --clean SPRITE scaling
@@ -87,7 +96,9 @@ function love.keypressed(key,scancode,isrepeat)
 		end
 	elseif State == Enums.states.game then
 		if key=="z" then
-	
+			Screen.scale = Screen.scale + 0.1
+		elseif key=="x" then
+			Screen.scale = Screen.scale - 0.1
 		end
 	end
 	if key == 'escape' then
@@ -166,11 +177,19 @@ function love.draw(dt)
 			for i,v in ipairs(Actors) do
 				actor.draw(v)
 			end
+			love.graphics.line(Road:render(1))
+			--love.graphics.line(Road)
+			love.graphics.translate(100,0)
+			love.graphics.line(Road:render(1))
+			--love.graphics.line(Road)
+			love.graphics.translate(-100,0)
+			--[[
 			for a = -10,10 do
 				for b = -10, 10 do
 					love.graphics.draw(Spritesheet,Quads[1],a*100,b*100,0,1,1,8,8)
 				end
 			end
+			--]]
 			--love.graphics.printf( {Palette[4],"VIDEO",Palette[3],"GAMEZ"}, -100, -50, 200, "center") 	
 			--love.graphics.translate(-Game.width/2, -Game.height/2)
 		end

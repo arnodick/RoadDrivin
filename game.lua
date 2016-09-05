@@ -57,9 +57,6 @@ local function changestate(s)
 	
 	elseif State == 3 then
 		Player=actor.make(Enums.actors.car,0,0,0,0)
-		actor.make(Enums.actors.tree,10,0,0,0)
-		actor.make(Enums.actors.tree,0,10,0,0)
-		actor.make(Enums.actors.tree,20,0,0,0)
 	end
 end
 
