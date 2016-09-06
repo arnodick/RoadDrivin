@@ -11,6 +11,7 @@ local function update()
 	table.insert(debuglist,"player y:"..Player.y)
 	table.insert(debuglist,"player vecx:"..Player.vec[1])
 	table.insert(debuglist,"player vecy:"..Player.vec[2])
+	table.insert(debuglist,"player vel:"..Player.vel)
 	return debuglist
 end
 
