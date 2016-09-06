@@ -45,12 +45,7 @@ local function changestate(s)
 	State=s
 	Timer=0
 	Pause=0
-	Camera={}
-	Camera.x=0
-	Camera.y=0
-	Camera.angle=0
-	Camera.rotationvel=0
-	Camera.shake=0
+	Camera=camera.make(0,0,0,1)
 	
 	Actors={}
 	if State == 0 then

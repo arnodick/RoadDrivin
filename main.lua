@@ -38,8 +38,8 @@ function love.load()
  	]]
 --]]
 
-	Game = game.make(16,16,320,240)
-	--Game = game.make(16,16,640,480)
+	--Game = game.make(16,16,320,240)
+	Game = game.make(16,16,640,480)
 	--Game = game.make(16,16,160,120)
 
 	Shader:send("screenWidth", Game.width)
@@ -96,9 +96,9 @@ function love.keypressed(key,scancode,isrepeat)
 		end
 	elseif State == Enums.states.game then
 		if key=="z" then
-			Screen.scale = Screen.scale + 0.1
+			Camera.scale = Camera.scale + 0.01
 		elseif key=="x" then
-			Screen.scale = Screen.scale - 0.1
+			Camera.scale = Camera.scale - 0.01
 		end
 	end
 	if key == 'escape' then
@@ -122,30 +122,6 @@ function love.update(dt)
 			for i,v in ipairs(Actors) do
 				actor.control(v)
 			end
-			--[[
-			if love.keyboard.isDown("up") then
-				Screen.scale = Screen.scale + 0.004
-			elseif love.keyboard.isDown("down") then
-				Screen.scale = Screen.scale - 0.004
-			end
-			Screen.scale = Screen.scale + math.sin(Timer/20)/20
-			if love.keyboard.isDown("left") then
-				Camera.rotationvel = Camera.rotationvel - 0.001
-			elseif love.keyboard.isDown("right") then
-				Camera.rotationvel = Camera.rotationvel + 0.001
-			else
-				if Camera.rotationvel < 0 then
-					Camera.rotationvel = Camera.rotationvel + 0.002
-				elseif Camera.rotationvel > 0 then
-					Camera.rotationvel = Camera.rotationvel - 0.002
-				end
-				if (Camera.rotationvel > -0.002 and Camera.rotationvel<0) or (Camera.rotationvel < 0.002 and Camera.rotationvel>0) then
-					--Camera.rotationvel = 0
-					Camera.rotationvel = 0 + love.math.random(0.002)-1
-				end
-			end
-			Camera.angle = Camera.angle + Camera.rotationvel
-			--]]
 		else
 			Pause = Pause - 1
 		end
@@ -163,6 +139,7 @@ function love.draw(dt)
 		local height=Screen.height
 		love.graphics.clear() --cleans that messy ol canvas all up, makes it all fresh and new and good you know
 		love.graphics.setBlendMode("screen")
+		love.graphics.scale(Camera.scale)
 		love.graphics.translate(-Camera.x,-Camera.y)
 		if State == Enums.states.intro then
 			love.graphics.print("intro",160,120)
