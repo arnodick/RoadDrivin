@@ -38,8 +38,8 @@ function love.load()
  	]]
 --]]
 
-	--Game = game.make(16,16,320,240)
-	Game = game.make(16,16,640,480)
+	Game = game.make(16,16,320,240)
+	--Game = game.make(16,16,640,480)
 	--Game = game.make(16,16,160,120)
 
 	Shader:send("screenWidth", Game.width)
@@ -163,8 +163,11 @@ function love.draw(dt)
 			for i,v in ipairs(Actors) do
 				actor.draw(v)
 			end
-			if #Skids>=4 then
-				love.graphics.line(Skids)
+			--if #Skids>=2 then
+			for i,v in ipairs(Skids) do
+				if #Skids[i] >= 4 then
+					love.graphics.line(v)
+				end
 			end
 			love.graphics.line(Road:render(1))
 			--love.graphics.line(Road)

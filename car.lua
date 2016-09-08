@@ -2,13 +2,20 @@ local function make(a)
 	a.td=0
 	a.md=a.d
 	a.f=0.03
+	a.turnfactorinit=4
+	a.turnfactor=a.turnfactorinit
+	a.skidlast=0
+	a.skidstart=0.5
 end
 
 local function control(a)
 	if love.keyboard.isDown('x') then
+		a.turnfactor=2
 		a.f=0.01
-		a.vel = a.vel - a.decel*1.5
+		--a.vel = a.vel - a.decel*1.5
+		a.vel = a.vel - a.decel*2
 	else
+		a.turnfactor=a.turnfactorinit
 		if a.vel<4 then
 			a.f=0.05
 		else
@@ -35,9 +42,9 @@ local function control(a)
 		a.td=0
 	end
 	if a.td<0 then
-		a.md = maths.clamp(a.md - 0.06, a.d - math.pi/3, a.d + math.pi/3, true)
+		a.md = maths.clamp(a.md - 0.06, a.d - math.pi/a.turnfactor, a.d + math.pi/a.turnfactor, true)
 	elseif a.td>0 then
-		a.md = maths.clamp(a.md + 0.06, a.d - math.pi/3, a.d + math.pi/3, true)
+		a.md = maths.clamp(a.md + 0.06, a.d - math.pi/a.turnfactor, a.d + math.pi/a.turnfactor, true)
 	end
 
 	if a.d < a.md then
@@ -45,8 +52,17 @@ local function control(a)
 	else
 		a.d = a.d - a.f
 	end
-	if math.abs(a.d - a.md) > 1 then
-		skid.make(a.x,a.y)
+	
+	if Timer%3==0 then
+		local skidpower = math.abs(a.d - a.md)
+		if skidpower > a.skidstart then--TODO: optomize this with local var
+			if a.skidlast<=a.skidstart then
+				skid.make(a.x,a.y)
+			else
+				skid.add(a.x,a.y)--TODO:implement this, fix .make
+			end
+		end
+		a.skidlast=skidpower
 	end
 end
 
