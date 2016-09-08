@@ -160,21 +160,23 @@ function love.draw(dt)
 			--love.graphics.translate(Game.width/2,Game.height/2)
 			--love.graphics.rectangle("line",0,0,Game.width,Game.height)
 			love.graphics.rotate(Camera.angle)
-			for i,v in ipairs(Actors) do
-				actor.draw(v)
-			end
-			--if #Skids>=2 then
 			for i,v in ipairs(Skids) do
 				if #Skids[i] >= 4 then
 					love.graphics.line(v)
 				end
 			end
+
+			--if #Skids>=2 then
+
 			love.graphics.line(Road:render(1))
 			--love.graphics.line(Road)
 			love.graphics.translate(100,0)
 			love.graphics.line(Road:render(1))
 			--love.graphics.line(Road)
 			love.graphics.translate(-100,0)
+			for i,v in ipairs(Actors) do
+				actor.draw(v)
+			end
 			--[[
 			for a = -10,10 do
 				for b = -10, 10 do

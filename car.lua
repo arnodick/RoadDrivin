@@ -13,10 +13,16 @@ local function make(a)
 	a.skidstart=0.5
 	a.tirebl={}
 	a.tirebr={}
-	a.tirebl.x=a.x+math.cos(-2)
-	a.tirebl.y=a.y+math.sin(-4)
-	a.tirebr.x=a.x-math.cos( 2)
-	a.tirebr.y=a.y+math.sin(-4)
+	--a.tirebl.d=math.pi+math.pi/3
+	a.tirebl.d=math.pi
+	a.tirebl.l=4
+	a.tirebl.x=a.x+math.cos(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
+	a.tirebl.y=a.y-math.sin(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
+	--a.tirebr.d=math.pi*2-math.pi/3
+	a.tirebr.d=0
+	a.tirebr.l=4
+	a.tirebr.x=a.x+math.cos(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
+	a.tirebr.y=a.y-math.sin(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
 end
 
 local function control(a)
@@ -65,18 +71,21 @@ local function control(a)
 		a.d = a.md
 	end
 	
-	a.tirebl.x=a.x+math.cos(-2)
-	a.tirebl.y=a.y+math.sin(-4)
-	a.tirebr.x=a.x-math.cos( 2)
-	a.tirebr.y=a.y+math.sin(-4)
+	a.tirebl.x=a.x+math.cos(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
+	a.tirebl.y=a.y-math.sin(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
+
+	a.tirebr.x=a.x+math.cos(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
+	a.tirebr.y=a.y-math.sin(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
 	
 	if Timer%3==0 then
 		local skidpower = math.abs(a.d - a.md)
 		if skidpower > a.skidstart then--TODO: optomize this with local var
 			if a.skidlast<=a.skidstart then
-				skid.make(a.x,a.y)
+				skid.make(a.tirebl.x,a.tirebl.y)
+				skid.make(a.tirebr.x,a.tirebr.y)
 			else
-				skid.add(a.x,a.y)--TODO:implement this, fix .make
+				skid.add(Skids[#Skids-1],a.tirebl.x,a.tirebl.y)--TODO:implement this, fix .make
+				skid.add(Skids[#Skids],  a.tirebr.x,a.tirebr.y)--TODO:implement this, fix .make
 			end
 		end
 		a.skidlast=skidpower
@@ -92,10 +101,19 @@ local function draw(a)
 		love.graphics.line(a.x,a.y,a.x+math.cos(a.d)*30,a.y+math.sin(a.d)*30)
 		
 		love.graphics.setColor(Palette[10])
-		--love.graphics.points(a.tirebl)
-		--love.graphics.points(a.tirebr)
-		love.graphics.rectangle("fill",a.tirebl.x,a.tirebl.y,2,2)
-		love.graphics.rectangle("fill",a.tirebr.x,a.tirebr.y,2,2)
+		--[[
+		local tlx = a.x+math.cos(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
+		local tly = a.y-math.sin(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
+		local trx = a.x+math.cos(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
+		local try = a.y-math.sin(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
+		]]
+		
+		--love.graphics.points(a.tirebl.x,a.tirebl.y)
+		--love.graphics.points(a.tirebr.x,a.tirebr.y)
+		love.graphics.line(a.x,a.y,a.tirebl.x,a.tirebl.y)
+		love.graphics.line(a.x,a.y,a.tirebr.x,a.tirebr.y)
+		--love.graphics.rectangle("fill",a.tirebl.x,a.tirebl.y,2,2)
+		--love.graphics.rectangle("fill",a.tirebr.x,a.tirebr.y,2,2)
 	end
 end
 

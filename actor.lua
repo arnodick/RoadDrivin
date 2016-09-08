@@ -15,11 +15,12 @@ local function make(t,x,y,d,vel)
 end
 
 local function control(a)
-	_G[Enums.names[a.t]]["control"](a)
+	
 	a.vec[1]=math.cos(a.d)
 	a.vec[2]=math.sin(a.d)
 	a.x = a.x + a.vec[1] * a.vel
 	a.y = a.y + a.vec[2] * a.vel
+	_G[Enums.names[a.t]]["control"](a)
 end
 
 local function draw(a)

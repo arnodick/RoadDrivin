@@ -14,10 +14,10 @@ local function update()
 	table.insert(debuglist,"player vecx:"..Player.vec[1])
 	table.insert(debuglist,"player vecy:"..Player.vec[2])
 	table.insert(debuglist,"player vel:"..Player.vel)
-	table.insert(debuglist,"player tire bl x:"..Player.tirebl.x)
-	table.insert(debuglist,"player tire bl y:"..Player.tirebl.y)
-	table.insert(debuglist,"player tire br x:"..Player.tirebr.x)
-	table.insert(debuglist,"player tire br y:"..Player.tirebr.y)
+	table.insert(debuglist,"player tire bl d:"..Player.tirebl.d)
+	table.insert(debuglist,"player tire bl l:"..Player.tirebl.l)
+	table.insert(debuglist,"player tire br d:"..Player.tirebr.d)
+	table.insert(debuglist,"player tire br l:"..Player.tirebr.l)
 	return debuglist
 end
 
