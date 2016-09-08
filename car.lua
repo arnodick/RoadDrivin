@@ -30,7 +30,8 @@ local function control(a)
 		a.turnfactor=2
 		a.f=0.01
 		--a.vel = a.vel - a.decel*1.5
-		a.vel = a.vel - a.decel*2
+		--a.vel = a.vel - a.decel*2
+		a.vel = maths.clamp(a.vel - a.decel*3,0,a.maxvel,true)
 	else
 		if a.turnfactor < a.turnfactorinit then
 			a.turnfactor = a.turnfactor +0.1
@@ -42,6 +43,8 @@ local function control(a)
 		end
 		if love.keyboard.isDown("up") then
 			a.vel = maths.clamp(a.vel + a.accel,-a.maxvel,a.maxvel,true)
+		elseif love.keyboard.isDown("down") then
+			a.vel = maths.clamp(a.vel - a.decel*2,-a.maxvel,a.maxvel,true)
 		else
 			if a.vel > a.decel then
 				a.vel = a.vel - a.decel
