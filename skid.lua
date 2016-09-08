@@ -1,14 +1,14 @@
 local function add(x,y)
 	table.insert(Skids[#Skids],x)
 	table.insert(Skids[#Skids],y)
+	print(x)
+	print(y)
 end
 
 local function make(x,y)
 	local s={}
 	table.insert(Skids,s)
 	add(x,y)
-	print(x)
-	print(y)
 end
 
 local function control(s)

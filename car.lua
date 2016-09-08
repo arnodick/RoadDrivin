@@ -1,4 +1,8 @@
 local function make(a)
+	--TODO: car type stuff here. use input for actor.make like in spacetank
+	a.accel=0.04
+	a.decel=0.02
+	a.maxvel=6
 	a.td=0
 	a.md=a.d
 	a.f=0.03
