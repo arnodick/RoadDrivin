@@ -6,10 +6,17 @@ local function make(a)
 	a.td=0
 	a.md=a.d
 	a.f=0.03
+	a.turnspeed=0.06
 	a.turnfactorinit=4
 	a.turnfactor=a.turnfactorinit
 	a.skidlast=0
 	a.skidstart=0.5
+	a.tirebl={}
+	a.tirebr={}
+	a.tirebl.x=a.x+math.cos(-2)
+	a.tirebl.y=a.y+math.sin(-4)
+	a.tirebr.x=a.x-math.cos( 2)
+	a.tirebr.y=a.y+math.sin(-4)
 end
 
 local function control(a)
@@ -19,7 +26,9 @@ local function control(a)
 		--a.vel = a.vel - a.decel*1.5
 		a.vel = a.vel - a.decel*2
 	else
-		a.turnfactor=a.turnfactorinit
+		if a.turnfactor < a.turnfactorinit then
+			a.turnfactor = a.turnfactor +0.1
+		end
 		if a.vel<4 then
 			a.f=0.05
 		else
@@ -30,7 +39,7 @@ local function control(a)
 		else
 			if a.vel > a.decel then
 				a.vel = a.vel - a.decel
-			elseif a.vel < a.decel then
+			elseif a.vel < -a.decel then
 				a.vel = a.vel + a.decel
 			else
 				a.vel = 0
@@ -45,17 +54,21 @@ local function control(a)
 	else
 		a.td=0
 	end
-	if a.td<0 then
-		a.md = maths.clamp(a.md - 0.06, a.d - math.pi/a.turnfactor, a.d + math.pi/a.turnfactor, true)
-	elseif a.td>0 then
-		a.md = maths.clamp(a.md + 0.06, a.d - math.pi/a.turnfactor, a.d + math.pi/a.turnfactor, true)
-	end
 
-	if a.d < a.md then
+	a.md = maths.clamp(a.md + a.td*a.turnspeed, a.d - math.pi/a.turnfactor, a.d + math.pi/a.turnfactor, true)
+
+	if a.d < a.md - a.f then
 		a.d = a.d + a.f
-	else
+	elseif a.d > a.md + a.f then
 		a.d = a.d - a.f
+	else
+		a.d = a.md
 	end
+	
+	a.tirebl.x=a.x+math.cos(-2)
+	a.tirebl.y=a.y+math.sin(-4)
+	a.tirebr.x=a.x-math.cos( 2)
+	a.tirebr.y=a.y+math.sin(-4)
 	
 	if Timer%3==0 then
 		local skidpower = math.abs(a.d - a.md)
@@ -77,6 +90,12 @@ local function draw(a)
 		love.graphics.line(a.x,a.y,a.x+math.cos(a.md)*20,a.y+math.sin(a.md)*20)
 		love.graphics.setColor(Palette[8])
 		love.graphics.line(a.x,a.y,a.x+math.cos(a.d)*30,a.y+math.sin(a.d)*30)
+		
+		love.graphics.setColor(Palette[10])
+		--love.graphics.points(a.tirebl)
+		--love.graphics.points(a.tirebr)
+		love.graphics.rectangle("fill",a.tirebl.x,a.tirebl.y,2,2)
+		love.graphics.rectangle("fill",a.tirebr.x,a.tirebr.y,2,2)
 	end
 end
 

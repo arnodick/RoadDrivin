@@ -14,7 +14,7 @@ local function control(c,t)
 		c.shake = c.shake - 1
 	end
 	--c.scale = maths.clamp(6/Player.vel,0.1,3,true)
-	c.scale = maths.clamp(6/Player.vel,0.1,3,true)
+	c.scale = maths.clamp(math.abs(6/Player.vel),0.1,3,true)
 	c.x = t.x - Game.width/(2*c.scale)
 	c.y = t.y - Game.height/(2*c.scale)-(t.vel/12)*Game.height/(2*c.scale)
 	--c.x=t.x+8*t.vel+love.math.random(c.shake)*2-56
