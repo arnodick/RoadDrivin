@@ -163,6 +163,9 @@ function love.draw(dt)
 			for i,v in ipairs(Actors) do
 				actor.draw(v)
 			end
+			if #Skids>=4 then
+				love.graphics.line(Skids)
+			end
 			love.graphics.line(Road:render(1))
 			--love.graphics.line(Road)
 			love.graphics.translate(100,0)

@@ -11,6 +11,8 @@ local function make(tw,th,gw,gh)
 	Timer=0
 	Pause=0
 	
+	Skids={}
+	
 	Palette={}
 	table.insert(Palette,{0,0,0})
 	table.insert(Palette,{32,51,123})
