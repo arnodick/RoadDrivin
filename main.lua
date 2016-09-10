@@ -59,9 +59,10 @@ function love.load()
 	--Road = Points
 	Road = love.math.newBezierCurve(Points)
 	
-	for a=1,100 do
+	for a=1,200 do
 		local x,y = Road:evaluate(love.math.random(1000)/1000)
-		actor.make(Enums.actors.tree,x-love.math.random(50),y,0,0)
+		
+		actor.make(Enums.actors.tree,math.choose(x-love.math.random(50)-20,x+love.math.random(50)+20+100),y,0,0)
 	end
 
 	--graphics settings and asset inits
