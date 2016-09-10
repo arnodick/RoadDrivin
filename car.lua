@@ -1,5 +1,6 @@
 local function make(a)
 	--TODO: car type stuff here. use input for actor.make like in spacetank
+	a.moves=true
 	a.accel=0.04
 	a.decel=0.02
 	a.maxvel=6
@@ -103,25 +104,17 @@ end
 local function draw(a)
 	love.graphics.draw(Spritesheet,Quads[0],a.x,a.y,a.md+math.pi/2,1,1,8,10)
 	if DebugMode then
+		--[[
 		love.graphics.setColor(Palette[9])
 		love.graphics.line(a.x,a.y,a.x+math.cos(a.md)*20,a.y+math.sin(a.md)*20)
 		love.graphics.setColor(Palette[8])
 		love.graphics.line(a.x,a.y,a.x+math.cos(a.d)*30,a.y+math.sin(a.d)*30)
-		
-		love.graphics.setColor(Palette[10])
-		--[[
-		local tlx = a.x+math.cos(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
-		local tly = a.y-math.sin(-a.md-math.pi/2+a.tirebl.d)*a.tirebl.l
-		local trx = a.x+math.cos(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
-		local try = a.y-math.sin(-a.md-math.pi/2+a.tirebr.d)*a.tirebr.l
 		]]
-		
-		--love.graphics.points(a.tirebl.x,a.tirebl.y)
-		--love.graphics.points(a.tirebr.x,a.tirebr.y)
-		love.graphics.line(a.x,a.y,a.tirebl.x,a.tirebl.y)
-		love.graphics.line(a.x,a.y,a.tirebr.x,a.tirebr.y)
-		--love.graphics.rectangle("fill",a.tirebl.x,a.tirebl.y,2,2)
-		--love.graphics.rectangle("fill",a.tirebr.x,a.tirebr.y,2,2)
+		love.graphics.setColor(Palette[9])
+		love.graphics.points(a.x+a.vec[1]*a.vel,a.y+a.vec[2]*a.vel)
+
+		--love.graphics.line(a.x,a.y,a.tirebl.x,a.tirebl.y)
+		--love.graphics.line(a.x,a.y,a.tirebr.x,a.tirebr.y)
 	end
 end
 

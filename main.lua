@@ -38,8 +38,8 @@ function love.load()
  	]]
 --]]
 
-	Game = game.make(16,16,320,240)
-	--Game = game.make(16,16,640,480)
+	--Game = game.make(16,16,320,240)
+	Game = game.make(16,16,640,480)
 	--Game = game.make(16,16,160,120)
 
 	Shader:send("screenWidth", Game.width)
@@ -53,7 +53,7 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest","nearest",1) --clean SPRITE scaling
 	love.graphics.setLineWidth(2)
 	love.graphics.setLineStyle("rough") --clean SHAPE scaling
-	love.graphics.setBlendMode("replace")
+	love.graphics.setBlendMode("alpha")
 	love.mouse.setVisible(false)
 	Spritesheet, Quads = sprites.load("gfx/sprites.png", Game.tile.width, Game.tile.height)
 
@@ -132,7 +132,6 @@ function love.draw(dt)
 		local width=Screen.width
 		local height=Screen.height
 		love.graphics.clear() --cleans that messy ol canvas all up, makes it all fresh and new and good you know
-		love.graphics.setBlendMode("screen")
 		love.graphics.scale(Camera.scale)
 		love.graphics.translate(-Camera.x,-Camera.y)
 		if State == Enums.states.intro then
@@ -142,21 +141,22 @@ function love.draw(dt)
 		elseif State == Enums.states.options then
 			love.graphics.print("options",160,120)
 		elseif State == Enums.states.game then
-			--love.graphics.translate(Game.width/2,Game.height/2)
+			--local xt = (Game.width)/(2*Camera.scale)
+			--local yt = -(Game.height)/(2*Camera.scale)
+			--local xt = Player.x - Camera.x
+			--local yt = Player.y - Camera.y
+			--love.graphics.translate(xt,yt)
 			--love.graphics.rectangle("line",0,0,Game.width,Game.height)
 			love.graphics.rotate(Camera.angle)
-			for i,v in ipairs(Skids) do
-				if #Skids[i] >= 4 then
-					love.graphics.line(v)
-				end
-			end
+			--love.graphics.translate(-xt,-yt)
+
 
 			--if #Skids>=2 then
 
-			love.graphics.line(Road.map:render(1))
-			love.graphics.translate(100,0)
-			love.graphics.line(Road.map:render(1))
-			love.graphics.translate(-100,0)
+			road.draw(Road)
+			
+			skid.draw(Skids)
+
 			for i,v in ipairs(Actors) do
 				actor.draw(v)
 			end
@@ -190,7 +190,7 @@ function love.draw(dt)
 		love.graphics.clear() --cleans that messy ol canvas all up, makes it all fresh and new and good you know
 		debugger.draw(DebugList)
 		love.graphics.setCanvas() --sets drawing back to screen
-		love.graphics.setBlendMode("alpha")
+		--love.graphics.setBlendMode("alpha")
 		love.graphics.origin()
 		love.graphics.draw(Canvas.debug,0,0,0,1,1,0,0) --just like draws everything to the screen or whatever
 	end

@@ -16,9 +16,18 @@ local function control(s)
 end
 
 local function draw(s)
-	love.graphics.setColor(Palette[7])
+	love.graphics.setColor(Palette[6])
+	for i,v in ipairs(s) do
+		if #s[i] >= 4 then
+			love.graphics.line(v)
+		end
+	end
+	love.graphics.setColor(255,255,255,255)
+--[[
+	love.graphics.setColor(Palette[6])
 	love.graphics.rectangle("fill",s.x,s.y,2,2)
 	love.graphics.setColor(Palette[8])
+]]
 end
 
 return

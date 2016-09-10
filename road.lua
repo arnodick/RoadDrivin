@@ -16,11 +16,13 @@ local function make(ylen,xcur,yint)
 end
 
 local function collision(a)
-
-	if a.x+a.vec[1] < Road.map:evaluate(math.abs(a.y/Road.length)) then
-		return true
+	local rx=Road.map:evaluate(math.abs((a.y+a.vec[2]*a.vel)/Road.length)) 
+	if a.x+a.vec[1]*a.vel < rx or a.x < rx then
+		return 1
+	elseif a.x+a.vec[1]*a.vel > rx +100 or a.x > rx +100 then
+		return -1
 	else
-		return false
+		return 0
 	end
 end
 
@@ -29,11 +31,25 @@ local function control(r)
 end
 
 local function draw(r)
-	
+	love.graphics.line(r.map:render(1))
+	love.graphics.translate(100,0)
+	love.graphics.line(r.map:render(1))
+	love.graphics.translate(-100,0)
+	if DebugMode then
+		local rx = r.map:evaluate(math.abs(Player.y/r.length))
+		local der = r.map:getDerivative()
+		--print(der:type())
+		local vecx,vecy = der:evaluate(math.abs(Player.y/r.length))
+		--local vecx = math.cos(der)
+		--local vecy = math.sin(der)
+		love.graphics.line(rx,Player.y,rx+vecx,Player.y+vecy)
+		--love.graphics.points(rx-10,Player.y)
+	end
 end
 
 return
 {
 	make = make,
 	collision = collision,
+	draw = draw,
 }
