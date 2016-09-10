@@ -1,5 +1,3 @@
---BRITISH STYLE motherfuckers
-
 local function clamp(v,mi,ma,h)
 	if h then
 		if v<mi then v=mi

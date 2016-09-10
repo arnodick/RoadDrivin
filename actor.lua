@@ -15,11 +15,17 @@ local function make(t,x,y,d,vel)
 end
 
 local function control(a)
-	
+	if a.t==Enums.actors.car then
 	a.vec[1]=math.cos(a.d)
 	a.vec[2]=math.sin(a.d)
-	a.x = a.x + a.vec[1] * a.vel
+	local coll = road.collision(a)
+	if coll then
+		a.x = Road.map:evaluate(math.abs(a.y/Road.length)) + 1
+	else
+		a.x = a.x + a.vec[1] * a.vel
+	end
 	a.y = a.y + a.vec[2] * a.vel
+	end
 	_G[Enums.names[a.t]]["control"](a)
 end
 

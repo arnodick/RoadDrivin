@@ -53,7 +53,9 @@ local function changestate(s)
 	if State == 0 then
 	
 	elseif State == 3 then
-		Player=actor.make(Enums.actors.car,0,0,0,0)
+		Player=actor.make(Enums.actors.car,26,-186,-math.pi/2,0)
+		--Road = road.make(250,25)
+		Road = road.make(499,250,25)
 	end
 end
 

@@ -48,22 +48,6 @@ function love.load()
 	Screen = screen.update(Game.width,Game.height)
 
 	game.changestate(State)
-	
-	Points = {}
-	for a=1,500 do
-		table.insert(Points,love.math.random(-250,250))
-		table.insert(Points,a*-25)
-		--actor.make(Enums.actors.tree,Points[a*2-1],Points[a*2],0,0)
-	end
-	
-	--Road = Points
-	Road = love.math.newBezierCurve(Points)
-	
-	for a=1,200 do
-		local x,y = Road:evaluate(love.math.random(1000)/1000)
-		
-		actor.make(Enums.actors.tree,math.choose(x-love.math.random(50)-20,x+love.math.random(50)+20+100),y,0,0)
-	end
 
 	--graphics settings and asset inits
 	love.graphics.setDefaultFilter("nearest","nearest",1) --clean SPRITE scaling
@@ -169,11 +153,9 @@ function love.draw(dt)
 
 			--if #Skids>=2 then
 
-			love.graphics.line(Road:render(1))
-			--love.graphics.line(Road)
+			love.graphics.line(Road.map:render(1))
 			love.graphics.translate(100,0)
-			love.graphics.line(Road:render(1))
-			--love.graphics.line(Road)
+			love.graphics.line(Road.map:render(1))
 			love.graphics.translate(-100,0)
 			for i,v in ipairs(Actors) do
 				actor.draw(v)

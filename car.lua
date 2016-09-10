@@ -6,11 +6,14 @@ local function make(a)
 	a.td=0
 	a.md=a.d
 	a.f=0.03
-	a.turnspeed=0.06
+	--a.turnspeed=0.06
+	a.turnspeedinit=0.04
+	a.turnspeed=a.turnspeedinit
 	a.turnfactorinit=4
 	a.turnfactor=a.turnfactorinit
 	a.skidlast=0
-	a.skidstart=0.5
+	--a.skidstart=0.5
+	a.skidstart=0.2
 	a.tirebl={}
 	a.tirebr={}
 	--a.tirebl.d=math.pi+math.pi/3
@@ -28,14 +31,16 @@ end
 local function control(a)
 	if love.keyboard.isDown('x') then
 		a.turnfactor=2
+		a.turnspeed=0.06
 		a.f=0.01
 		--a.vel = a.vel - a.decel*1.5
 		--a.vel = a.vel - a.decel*2
 		a.vel = math.clamp(a.vel - a.decel*3,0,a.maxvel,true)
 	else
 		if a.turnfactor < a.turnfactorinit then
-			a.turnfactor = a.turnfactor +0.1
+			a.turnfactor = a.turnfactor + 0.1
 		end
+		a.turnspeed=a.turnspeedinit
 		if a.vel<4 then
 			a.f=0.05
 		else
