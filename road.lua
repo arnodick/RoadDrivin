@@ -36,14 +36,18 @@ local function draw(r)
 	love.graphics.line(r.map:render(1))
 	love.graphics.translate(-100,0)
 	if DebugMode then
+		love.graphics.setColor(Palette[9])
 		local rx = r.map:evaluate(math.abs(Player.y/r.length))
 		local der = r.map:getDerivative()
-		--print(der:type())
-		local vecx,vecy = der:evaluate(math.abs(Player.y/r.length))
+		local vecx,vecy = vector.normalize(der:evaluate(math.abs(Player.y/r.length)))
+		print(vector.direction(vecx,vecy))
+		local len = 20
 		--local vecx = math.cos(der)
 		--local vecy = math.sin(der)
-		love.graphics.line(rx,Player.y,rx+vecx,Player.y+vecy)
+		love.graphics.line(rx,Player.y,rx+vecx*len,Player.y+vecy*len)
+		love.graphics.line(rx,Player.y,rx-vecx*len,Player.y-vecy*len)
 		--love.graphics.points(rx-10,Player.y)
+		love.graphics.setColor(Palette[8])
 	end
 end
 
