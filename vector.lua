@@ -16,10 +16,21 @@ local function direction(vx,vy)
 	return math.atan2(vy,vx)
 end
 
+local function mirror(vx,vy,hor)
+	hor = hor or true
+	if hor then
+		vx = -vx
+	else
+		vy = -vy
+	end
+	return vx, vy
+end
+
 return
 {
 	components = components,
 	normalize = normalize,
 	distance = distance,
 	direction = direction,
+	mirror = mirror,
 }

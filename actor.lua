@@ -21,13 +21,18 @@ local function control(a)
 		local coll = road.collision(a)
 		if coll == 1 then
 			a.x = Road.map:evaluate(math.abs(a.y/Road.length)) + 1
-			a.d = -0.6
+			a.d = vector.direction(vector.mirror(a.vec[1],a.vec[2])) + road.direction(Road,Player.y) + math.pi/2
+			a.md=a.d
+			--a.d = -0.6
 		elseif coll == -1 then
 			a.x = Road.map:evaluate(math.abs(a.y/Road.length)) + 99
-			a.d = -math.pi + 0.6
+			a.d = vector.direction(vector.mirror(a.vec[1],a.vec[2])) + road.direction(Road,Player.y) + math.pi/2
+			a.md=a.d
+			--a.d = -math.pi + 0.6
 		else
 			a.x = a.x + a.vec[1] * a.vel
 		end
+		--a.x = a.x + a.vec[1] * a.vel
 		a.y = a.y + a.vec[2] * a.vel
 	end
 	_G[Enums.names[a.t]]["control"](a)

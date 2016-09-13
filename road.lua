@@ -26,6 +26,10 @@ local function collision(a)
 	end
 end
 
+local function direction(r,y)
+	return vector.direction(r.map:getDerivative():evaluate(math.abs(y/r.length)))
+end
+
 local function control(r)
 	
 end
@@ -38,9 +42,10 @@ local function draw(r)
 	if DebugMode then
 		love.graphics.setColor(Palette[9])
 		local rx = r.map:evaluate(math.abs(Player.y/r.length))
-		local der = r.map:getDerivative()
-		local vecx,vecy = vector.normalize(der:evaluate(math.abs(Player.y/r.length)))
-		print(vector.direction(vecx,vecy))
+		--local der = r.map:getDerivative()
+		local vecx,vecy = vector.normalize(r.map:getDerivative():evaluate(math.abs(Player.y/r.length)))
+		--print(vector.direction(vecx,vecy))
+		print(road.direction(r,Player.y))
 		local len = 20
 		--local vecx = math.cos(der)
 		--local vecy = math.sin(der)
@@ -56,4 +61,5 @@ return
 	make = make,
 	collision = collision,
 	draw = draw,
+	direction = direction,
 }
